@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CVGS.Models.Game>
+
+@{
+    ViewData["Title"] = "Games";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Games</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Singleplayer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Multiplayer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chalices)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Singleplayer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Multiplayer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Chalices)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a asp-action="AddGenre" asp-route-id="@item.Id">Add Genre</a> |
+                <a asp-action="AddImage" asp-route-id="@item.Id">Add Image</a> |
+                <a asp-action="ViewImage" asp-route-id="@item.Id">View Image</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,27 @@
+﻿@model CVGS.Models.Friend
+
+@{
+    ViewData["Title"] = "Remove Friend";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Remove Friend</h2>
+
+<h4>Are you sure you want to remove this friend?</h4>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OtherUser.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewData["friendToDeleteName"].ToString()
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Remove" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

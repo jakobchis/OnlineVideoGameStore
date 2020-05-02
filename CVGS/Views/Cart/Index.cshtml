@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CVGS.Models.Game>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h1>Cart</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewData["cartList"] != null)
+        {
+        @foreach (var item in ViewData["cartList"] as List<String>)
+        {
+            @if (item != "")
+            {
+                <tr>
+                    <td>
+                        @foreach (var modelItem in Model)
+                        {
+                            if (Guid.Parse(item) == modelItem.Id)
+                            {
+                                @modelItem.Name
+                                break;
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item">Remove</a>
+                    </td>
+                </tr>
+            }
+        }
+        }
+    </tbody>
+    <form asp-controller="Checkout" asp-action="Create" method="get">
+        <button type="submit" style="float: right;">Checkout</button>
+    </form>
+</table>

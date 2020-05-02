@@ -1,0 +1,64 @@
+﻿@model List<CVGS.Models.Review>
+@using System.Security.Claims;
+
+@if (User.FindFirst(ClaimTypes.NameIdentifier) != null)
+{
+    <div class="card-body text-secondary">
+        <div class="card text-white bg-dark mb-3" style="max-width: 68rem;">
+            <div class="card-header row">
+                <div class="col-md-10">Your Review</div>
+                <div class="col-md-2">
+                    <a asp-controller="Review" asp-action="Update" asp-route-id="@ViewData["ReviewId"]">Edit</a> |
+                    <a asp-controller="Review" asp-action="Delete" asp-route-id="@ViewData["ReviewId"]">Delete</a>
+                </div>
+            </div>
+            <div class="card-body">
+                @{
+                    if ((bool)ViewData["ReviewRecommended"])
+                    {
+                        <h5 class="card-title">Recommended <i class="fa fa-thumbs-up"></i></h5>
+
+                    }
+                    else
+                    {
+                        <h5 class="card-title">Not Recommended <i class="fa fa-thumbs-down"></i></h5>
+
+                    }
+                }
+                <label>Posted: @ViewData["ReviewDate"]</label>
+                <div class="card-body bg-secondary">
+                    <p class="card-text" style="white-space: pre-line;">@ViewData["ReviewText"]</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@foreach (var item in Model)
+{
+    <div class="card-body text-secondary">
+        <div class="card text-white bg-dark mb-3" style="max-width: 68rem;">
+            <div class="card-header">@item.User.UserName's Review</div>
+            <div class="card-body">
+                @{
+                    if (@item.Recommended)
+                    {
+                        <h5 class="card-title row">Recommended <i class="fa fa-thumbs-up"></i></h5>
+
+                    }
+                    else
+                    {
+                        <h5 class="card-title">Not Recommended <i class="fa fa-thumbs-down"></i></h5>
+
+                    }
+                }
+                <label>Posted: @item.Date.ToString("dd MMM, yyyy")</label>
+                <div class="card-body bg-secondary">
+                    <p class="card-text" style="white-space: pre-line;">@item.Text</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

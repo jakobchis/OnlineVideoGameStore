@@ -1,0 +1,21 @@
+﻿@model List<CVGS.Models.GameImage>
+@{
+    var imgExist = false;
+    foreach (var item in Model)
+    {
+        if (!imgExist)
+        {
+            if (item.File != null)
+            {
+                var base64 = Convert.ToBase64String(item.File);
+                var imagesrc = string.Format("data:image/jpeg;base64,{0}", base64);
+                imgExist = true;
+                <img class="card-img-top" src="@imagesrc">
+            }
+        }
+    }
+    if (!imgExist)
+    {
+        <img class="card-img-top" src="~/img/game-controller.jpg">
+    }
+}

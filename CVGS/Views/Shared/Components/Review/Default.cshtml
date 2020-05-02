@@ -1,0 +1,74 @@
+﻿@model List<CVGS.Models.Review>
+@using System.Security.Claims;
+
+@if (User.FindFirst(ClaimTypes.NameIdentifier) != null)
+{
+    <div class="card-body text-secondary">
+        <form id="ReviewForm" asp-controller="Review" asp-action="Create" method="post">
+            <div class="form-group">
+                <label class="control-label">Do you recommend this game? Click on the icon to toggle between thumbs-up/like and thumbs-down/dislike</label>
+                <i onclick="changeThumb(this)" class="form-control fa fa-thumbs-up"></i>
+                <input hidden id="chkRecommend" name="Recommended" type="checkbox" value="true" checked="checked" />
+            </div>
+            <div class="form-group">
+                <label for="">Write your review</label>
+                <textarea name="Text" class="form-control" id="ReviewText" rows="3"></textarea>
+                <span class="text-danger field-validation-error" data-valmsg-replace="true">
+                    <span id="Text-error" class=""></span>
+                </span>
+            </div>
+            <input hidden name="GameId" value="@ViewData["ReviewGameId"]" />
+            <input hidden name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" />
+            <input hidden name="Date" value="@DateTime.Now" />
+            <button onclick="" type="submit">Submit Review</button>
+        </form>
+    </div>
+}
+@foreach (var item in Model)
+{
+    <div class="card-body text-secondary">
+        <div class="card text-white bg-dark mb-3" style="max-width: 68rem;">
+            <div class="card-header">@item.User.UserName's Review</div>
+            <div class="card-body">
+                @{
+                    if (@item.Recommended)
+                    {
+                        <h5 class="card-title">Recommended <i class="fa fa-thumbs-up"></i></h5>
+
+                    }
+                    else
+                    {
+                        <h5 class="card-title">Not Recommended <i class="fa fa-thumbs-down"></i></h5>
+
+                    }
+                }
+                <label>Posted: @item.Date.ToString("dd MMM, yyyy")</label>
+                <div class="card-body bg-secondary">
+                    <p class="card-text" style="white-space: pre-line;">@item.Text</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+    $("#ReviewForm").submit(function () {
+        var text = $('#ReviewText').val();
+        if (text != null) {
+            text = text.trim();
+            if (text != "" && text.length >= 20) {
+                return true;
+            }
+            else {
+                $('#Text-error').text('Please describe what you liked or disliked about this game in at least 20 characters and whether you recommend it to others.')
+                return false;
+            }
+        }
+        else {
+            $('#Text-error').text('Please describe what you liked or disliked about this game in at least 20 characters and whether you recommend it to others.')
+            return false;
+        }
+    });
+</script>

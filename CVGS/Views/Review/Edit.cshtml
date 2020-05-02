@@ -1,0 +1,76 @@
+﻿@model CVGS.Models.Review
+
+@{
+    ViewData["Title"] = "Edit Review";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Review</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label class="control-label">Game</label>
+                <input hidden asp-for="GameId" class="form-control" />
+                <input disabled class="form-control" value="@Html.DisplayFor(model => model.Game.Name)" />
+                <span asp-validation-for="GameId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Username</label>
+                <input hidden asp-for="UserId" class="form-control" />
+                <input disabled class="form-control" value="@Html.DisplayFor(model => model.User.UserName)" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Review Text</label>
+                <input hidden asp-for="Text" class="form-control" />
+                <p style="white-space:pre-line; border:groove;">@Html.DisplayFor(model => model.Text)</p>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Review Date</label>
+                <input hidden asp-for="Date" class="form-control" />
+                <input disabled value="@Html.DisplayFor(model => model.Date)" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">
+                    @Html.DisplayNameFor(model => model.Recommended): <span id="RecommendedSpan">Yes</span>
+                </label>
+                <input hidden class="form-check-input" asp-for="Recommended" />
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="true" name="Approved" /> Do you approve this review? Please check the box if you do.
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript">
+    $function() {
+        if ($('#Recommended').is(":checked")) {
+
+        }
+        else {
+            $('#RecommendedSpan').text('No')
+        }
+    }
+</script>

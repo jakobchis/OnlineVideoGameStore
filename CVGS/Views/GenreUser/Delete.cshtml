@@ -1,0 +1,28 @@
+﻿@model CVGS.Models.GenreUser
+
+@{
+    ViewData["Title"] = "Remove Favorite Genre";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Remove Favorite Genre</h1>
+
+<h3>Are you sure you want to remove this?</h3>
+<div>
+    <h4>My Favorite Genres</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Genre.Name)
+        </dd class>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Remove" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

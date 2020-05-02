@@ -1,0 +1,91 @@
+﻿@model CVGS.Models.Checkout
+
+@{
+    ViewData["Title"] = "Cart Checkout";
+}
+
+<h4>Cart Checkout</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label" style="font-weight:bold">Games</label><br />
+                @foreach (Checkout item in ((Checkout[])ViewData["checkout"]))
+                {
+                    if (item != null)
+                    {
+                        @item.Game.Name;
+                        <br />
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <label class="control-label" style="font-weight:bold">Credit Card</label><br />
+                @foreach (Checkout item in ((Checkout[])ViewData["checkout"]))
+                {
+                    try
+                    {
+                        if (item != null)
+                        {
+                            String cardHidden = "**** **** **** " + item.Card.Number.ToString().Substring(12);
+                            @cardHidden
+                            break;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        <form asp-controller="CreditCard" asp-action="index" method="get">
+                            <button class="btn btn-primary"><a class="nav-link text-dark" asp-area="" asp-controller="CreditCard" asp-action="Create">Add A Credit Card</a></button>
+                        </form>
+                        <font color="red">@TempData["noCreditCard"]</font>
+                        break;
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderDate" class="control-label" style="font-weight:bold"></label><br />
+                @foreach (Checkout item in ((Checkout[])ViewData["checkout"]))
+                {
+                    if (item != null)
+                    {
+                        @item.OrderDate;
+                        break;
+                    }
+                }
+            </div>
+            @*<div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Processed" /> @Html.DisplayNameFor(model => model.Processed)
+                </label>
+            </div>*@
+        <form asp-controller="Checkout" asp-action="Create" method="post">
+
+            @foreach (Checkout item in ((Checkout[])ViewData["checkout"]))
+            {
+                <input hidden name="userId" value="@item.User.Id" />
+                @try
+                {
+                    <input hidden name="CreditCardId" value="@item.Card.Id" />
+                }
+                catch (Exception)
+                {
+
+                    <input name="CreditCardId" value="" />
+                }
+                break;
+            }
+            <button type="submit">Complete Checkout</button>
+        </form>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a  asp-controller="Cart" asp-action="Index">Back to Cart</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

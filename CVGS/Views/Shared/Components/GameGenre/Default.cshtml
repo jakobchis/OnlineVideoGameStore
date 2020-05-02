@@ -1,0 +1,26 @@
+﻿@model List<CVGS.ViewModels.GameGenreComponentViewModel>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                Genre
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="RemoveGameGenre" asp-route-id="@item.GameGenreId">
+                        <span class="glyphicon glyphicon-trash text-danger"></span>
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GenreName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

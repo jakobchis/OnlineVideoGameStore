@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CVGS.Models.Friend>
+
+@{
+    ViewData["Title"] = "Friends";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Friends</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </th>
+            <th>Wish List</th>
+            <th>Remove Friend</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            //Show only active users' friends
+            @if (item.UserId.ToString() == (@TempData["activeUserId"]).ToString())
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OtherUser.UserName)
+                    </td>
+                    <td>
+                        @*Send to user's wishlist*@
+                        <a asp-controller="Wishlist" asp-action="IndexFriend" asp-route-friendId="@item.OtherUserId">Wish List</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Remove Friend</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<form action="/Friend/Index" method="post">
+    <p>Friend/Family Username:</p>
+    <p style="color: red">@TempData["friendError"]</p>
+    <p>@Html.TextBox("Username")</p>
+    <input type="submit" name="name" value="Add Friend" />
+</form>

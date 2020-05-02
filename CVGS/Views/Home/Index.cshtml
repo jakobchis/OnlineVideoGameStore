@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CVGS.ViewModels.GameStore>
+
+@{
+    ViewData["Title"] = "Conestoga College VideoGame Store";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Conestoga College Video Game Store</h1>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <input id="searchBar" class="form-control" type="text" placeholder="Search..">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-6 col-md-6 mb-4">
+            <!-- Card Regular -->
+            <div class="card card-cascade">
+                <!-- Card image -->
+                <div class="view view-cascade overlay">
+
+                    <a asp-action="Details" asp-route-id="@item.GameId">
+                        <div class="mask rgba-white-slight waves-effect waves-light">
+                            @await Component.InvokeAsync("GameStoreImage", new { Id = item.GameId, isCarousel = false })
+                        </div>
+                    </a>
+                </div>
+                <!-- Card content -->
+                <div class="card-body card-body-cascade text-center">
+                    <!-- Title -->
+                    <h4 class="gameCard card-title"><strong>@Html.DisplayFor(modelItem => item.GameName)</strong></h4>
+                    <!-- Subtitle -->
+                    <h6 class="font-weight-bold indigo-text py-2">
+                        @if (item.Singleplayer == true)
+                        {
+                            <span class="badge badge-light">@Html.DisplayNameFor(model => model.Singleplayer)</span>
+                        }
+                        @if (item.Multiplayer == true)
+                        {
+                            <span class="badge badge-light">@Html.DisplayNameFor(model => model.Multiplayer)</span>
+                        }
+                        @if (item.VR == true)
+                        {
+                            <span class="badge badge-light">@Html.DisplayNameFor(model => model.VR)</span>
+                        }
+                        @if (item.Chalices == true)
+                        {
+                            <span class="badge badge-light">@Html.DisplayNameFor(model => model.Chalices)</span>
+                        }
+                    </h6>
+                    <!-- Text -->
+                    <p class="card-text max-word-length">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </p>
+                    @foreach (var genre in item.GameGenreList)
+                    {
+                        <a class="btn-floating btn-small waves-effect waves-light">
+                            <span class="badge badge-dark">@Html.DisplayFor(modelItem => genre)</span>
+                        </a>
+
+                    }
+                </div>
+                <!-- Card footer -->
+                <div class="card-footer text-muted text-center">
+                </div>
+            </div>
+            <!-- Card Regular -->
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(".max-word-length").text(function (index, currentText) {
+        if (currentText.length > 200) {
+            currentText = currentText.substr(0, 200) + "...";
+        }
+        return currentText;
+    });
+    $("#searchBar").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".gameCard").filter(function() {
+      $(this.parentElement.parentElement.parentElement).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+</script>

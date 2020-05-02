@@ -1,0 +1,23 @@
+﻿@model CVGS.Models.Game
+
+@{
+    ViewData["Title"] = "Delete From Cart";
+}
+
+<h1>Delete From Cart</h1>
+
+<h3>Are you sure you want to delete - @Html.DisplayFor(model => model.Name) - from cart?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayFor(model => model.Name)
+        </dt>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="@TempData["CartDeleteId"]" />
+        <input type="submit" value="Remove" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

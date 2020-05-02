@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CVGS.Models.GameImage>
+
+@{
+    ViewData["Title"] = "Game Images";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Game Images</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Game)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.File)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Game.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @{
+                        var base64 = Convert.ToBase64String(item.File);
+                        var imagesrc = string.Format("data:image/jpeg;base64,{0}", base64);
+
+                    }
+                    <a href="javascript:void(0);" class="pop"><img src="@imagesrc" style='max-height:100px;max-width:100px' /></a>
+                </td>
+                <td>
+                     <a asp-action="RemoveGameImage" asp-route-id="@item.Id">
+                        <span class="glyphicon glyphicon-trash text-danger"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!-- Creates the bootstrap modal where the image will appear -->
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <img src="" class="imagepreview" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+		$('.pop').on('click', function() {
+			$('.imagepreview').attr('src', $(this).find('img').attr('src'));
+			$('#imagemodal').modal('show');   
+		});		
+    });
+</script>

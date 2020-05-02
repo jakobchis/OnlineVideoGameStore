@@ -1,0 +1,73 @@
+﻿@model CVGS.Models.Game
+@using System.Security.Claims;
+
+@{
+    ViewData["Title"] = "Game Details";
+ Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Game Details</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <h4>Game</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Singleplayer)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Singleplayer)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Multiplayer)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Multiplayer)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.VR)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.VR)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Chalices)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Chalices)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        @await Component.InvokeAsync("GameGenre", Model.Id)
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+    <form asp-controller="Wishlist" asp-action="Create" method="post">
+        <input hidden name="GameId" value="@Model.Id" />
+        <input hidden name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" />
+        <input hidden name="Date" value="@DateTime.Now" />
+        <button type="submit">Add to Wishlist</button>
+    </form>
+</div>
